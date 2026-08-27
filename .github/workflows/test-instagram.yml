@@ -1,0 +1,13 @@
+name: Test Instagram Access
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Query Instagram Account
+        run: |
+          curl -X GET "https://graph.instagram.com/me?fields=id,username&access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
