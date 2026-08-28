@@ -8,7 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Verify Token
+      - name: Check token exists
+        env:
+          TOKEN: ${{ secrets.IG_ACCESS_TOKEN_EN }}
         run: |
-          curl -s \
-          "https://graph.facebook.com/v23.0/me?access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
+          echo "Length: ${#TOKEN}"
+
+      - name: Verify Token
+        env:
+          TOKEN: ${{ secrets.IG_ACCESS_TOKEN_EN }}
+        run: |
+          curl -s "https://graph.facebook.com/v23.0/me?access_token=$TOKEN"
