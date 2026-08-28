@@ -13,6 +13,6 @@ jobs:
           curl -s -X POST \
           "https://graph.facebook.com/v23.0/${{ secrets.IG_USER_ID_EN }}/media" \
           -F "media_type=REELS" \
-          -F "video_url=https://YOUR_VIDEO_URL_HERE" \
-          -F "caption=🍔 UniBite Test Reel #foodfacts" \
+          -F "video_url=https://github.com/UniBite-admin/UniBite-Automation/blob/main/test-video/EN101.mp4" \
+          -F "caption=#popbite #facts #didyouknow #unibite" \
           -F "access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
