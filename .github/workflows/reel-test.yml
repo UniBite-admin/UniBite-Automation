@@ -12,7 +12,7 @@ jobs:
         id: create
         run: |
           RESPONSE=$(curl -s -X POST \
-          "https://graph.facebook.com/v23.0/${{ secrets.IG_USER_ID_EN }}/media" \
+          "https://graph.instagram.com/v25.0/${{ secrets.IG_USER_ID_EN }}/media" \
           -F "media_type=REELS" \
           -F "video_url=https://raw.githubusercontent.com/UniBite-admin/UniBite-Automation/08ef0a2be81abbde56c7d8e013b0545740b33fe1/test-video/EN101.mp4" \
           -F "caption=🎉 UniBite Reel API Test" \
@@ -32,11 +32,11 @@ jobs:
       - name: Check processing status
         run: |
           curl -s \
-          "https://graph.facebook.com/v23.0/${CREATION_ID}?fields=status_code,status&access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
+          "https://graph.instagram.com/v25.0/${CREATION_ID}?fields=status_code,status&access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
 
       - name: Publish Reel
         run: |
           curl -s -X POST \
-          "https://graph.facebook.com/v23.0/${{ secrets.IG_USER_ID_EN }}/media_publish" \
+          "https://graph.instagram.com/v25.0/${{ secrets.IG_USER_ID_EN }}/media_publish" \
           -F "creation_id=${CREATION_ID}" \
           -F "access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
