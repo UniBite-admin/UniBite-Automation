@@ -1,0 +1,14 @@
+name: Verify Instagram Token
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify Token
+        run: |
+          curl -s \
+          "https://graph.facebook.com/v23.0/me?access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
