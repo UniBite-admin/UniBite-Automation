@@ -1,0 +1,39 @@
+name: Instagram Reel Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create Reel Container
+        id: create
+        run: |
+          RESPONSE=$(curl -s -X POST \
+          "https://graph.facebook.com/v23.0/${{ secrets.IG_USER_ID_EN }}/media" \
+          -F "media_type=REELS" \
+          -F "video_url=https://github.com/UniBite-admin/UniBite-Automation/blob/main/test-video/EN101.mp4" \
+          -F "caption=#popbite #facts #didyouknow #unibite")
+
+          echo "$RESPONSE"
+
+          CREATION_ID=$(echo $RESPONSE | jq -r '.id')
+
+          echo "CREATION_ID=$CREATION_ID" >> $GITHUB_ENV
+
+      - name: Wait
+        run: sleep 60
+
+      - name: Check Status
+        run: |
+          curl -s \
+          "https://graph.facebook.com/v23.0/${CREATION_ID}?fields=status_code&access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
+
+      - name: Publish Reel
+        run: |
+          curl -s -X POST \
+          "https://graph.facebook.com/v23.0/${{ secrets.IG_USER_ID_EN }}/media_publish" \
+          -F "creation_id=${CREATION_ID}" \
+          -F "access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
