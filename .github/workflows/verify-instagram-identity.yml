@@ -1,0 +1,14 @@
+name: Verify Instagram Identity
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get IG identity
+        run: |
+          curl -s \
+          "https://graph.instagram.com/v25.0/me?fields=user_id,username&access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
