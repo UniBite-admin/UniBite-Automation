@@ -1,10 +1,10 @@
-name: Instagram Reel Test
+name: Test Instagram Reel
 
 on:
   workflow_dispatch:
 
 jobs:
-  publish:
+  reel:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,21 +15,24 @@ jobs:
           "https://graph.facebook.com/v23.0/${{ secrets.IG_USER_ID_EN }}/media" \
           -F "media_type=REELS" \
           -F "video_url=https://github.com/UniBite-admin/UniBite-Automation/blob/main/test-video/EN101.mp4" \
-          -F "caption=#popbite #facts #didyouknow #unibite")
+          -F "caption=🎉 UniBite Reel API Test" \
+          -F "access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}")
 
           echo "$RESPONSE"
 
-          CREATION_ID=$(echo $RESPONSE | jq -r '.id')
+          echo "$RESPONSE" > response.json
+
+          CREATION_ID=$(jq -r '.id' response.json)
 
           echo "CREATION_ID=$CREATION_ID" >> $GITHUB_ENV
 
-      - name: Wait
+      - name: Wait for processing
         run: sleep 60
 
-      - name: Check Status
+      - name: Check processing status
         run: |
           curl -s \
-          "https://graph.facebook.com/v23.0/${CREATION_ID}?fields=status_code&access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
+          "https://graph.facebook.com/v23.0/${CREATION_ID}?fields=status_code,status&access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}"
 
       - name: Publish Reel
         run: |
