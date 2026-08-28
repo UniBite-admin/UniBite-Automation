@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Create Reel Container
         run: |
-          curl -X POST "https://graph.facebook.com/v23.0/${{ secrets.IG_USER_ID_EN }}/media" \
+          curl -v "https://graph.instagram.com/me?fields=id,username&access_token=${{ secrets.IG_ACCESS_TOKEN_EN }}" \
           -F "media_type=REELS" \
           -F "video_url=${{ secrets.IG_PUBLIC_VIDEO_URL_EN }}" \
           -F "caption=#popbite #shorts #facts #didyouknow #education #unibite" \
